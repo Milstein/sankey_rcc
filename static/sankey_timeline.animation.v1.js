@@ -1,7 +1,7 @@
 const build_animation = function build_animation(graphs, graph_nest, summary, svg) {
   let i = 1;
   let years = Object.keys(graph_nest.strokes).sort().map(Number);
-  console.log(years);
+  //console.log(years);
 
   function animate_period() {
 
@@ -89,7 +89,7 @@ const build_animation = function build_animation(graphs, graph_nest, summary, sv
             /**
              * Update sector waste
              */
-            } else if (d.classed('waste')) {
+            } else if (d.classed('waste-level')) {
               let a = parseFloat(that.getAttribute('data-value'));
               let b = graph_nest.waste[years[i]][that.getAttribute('data-sector')];
               return function(t) {

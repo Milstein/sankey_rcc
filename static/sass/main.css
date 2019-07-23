@@ -6,6 +6,8 @@ text {
   stroke-linejoin: round; }
   .flow.elec {
     stroke: #e49942; }
+  .flow.waste {
+    stroke: #abd0bc; }
   .flow.solar {
     stroke: #fed530; }
   .flow.nuclear {

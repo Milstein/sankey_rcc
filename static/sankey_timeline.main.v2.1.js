@@ -21,7 +21,7 @@
     svg.append('g')
       .attr('class', 'fuel '+FUELS[i].fuel);
   }
-  svg.append('g').attr('class', 'fuel elec');
+  //svg.append('g').attr('class', 'fuel elec');
 
   /*
    Build nested graph object
@@ -47,15 +47,19 @@
       } else {
         graph_nest.tops[y][f] = ELEC_BOX[1] - summary.totals[i].elec * SCALE;
       }
+      graph_nest.tops[y]['waste'] = graph_nest.tops[y]['elec'];
 
       for (let k = 0; k < BOXES.length; ++k) {
         let b = BOXES[k].box;
 
         if (b !== 'elec') {
-          graph_nest.waste[y][b] = DATA[i].waste[b];
+          if (b === 'waste') {
+            graph_nest.waste[y]['waste'] = summary.totals[i].waste;
+          } else {
+            graph_nest.waste[y][b] = DATA[i].waste[b];
+          }
         }
-
-        graph_nest.heights[y][b] = (summary.totals[i][b] + DATA[i].waste[b]) * SCALE;
+        graph_nest.heights[y][b] = summary.totals[i][b] * SCALE;
 
         let s =
           graphs[i].graph.filter(function(d) {

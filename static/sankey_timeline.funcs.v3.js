@@ -12,6 +12,36 @@ const build_all_graphs = function build_all_graphs(summary) {
   let graphs = graph_y(summary);
   graphs = graph_x(graphs);
   graphs = space_ups_and_downs(graphs);
+
+  // for (let i = 0; i < graphs.length; ++i) {
+  //   graphs[i].graph
+  //     .filter(function (g) {
+  //       return g.fuel === 'waste';
+  //     })
+  //     .forEach(function (g, j) {
+  //       g.a.x = ELEC_BOX[0] + BOX_WIDTH;
+        
+  //       g.b.x = g.b.x + LEFT_GAP;
+        
+  //       g.a.y = g.a.y - (graphs[i].offsets.y.waste - 20);
+  //       g.b.y = g.a.y;
+
+  //       // g.d.x = ELEC_BOX[0];
+  //       // g.d.y = (ELEC_BOX[1] -
+  //       //   graphs[i].totals.waste * SCALE + graphs[i].offsets.y.waste);
+
+  //       // g.c.x = (ELEC_BOX[0] - 20 -
+  //       //   (graphs[i].totals.waste * SCALE - graphs[i].offsets.y.waste) / SR3 -
+  //       //   (FUELS.length - j) * PATH_GAP);
+  //       // g.b.x = (g.c.x - Math.abs(g.a.y - g.d.y) /
+  //       //   SR3);
+
+  //       if (g.box === 'trans') {
+  //         g.b.x = g.b.x + (TOP_Y + LEFT_GAP) - 20;
+  //         //g.c.x = g.c.x + BOX_WIDTH;
+  //       }
+  //     });
+  // }
   return graphs;
 };
 
@@ -28,11 +58,19 @@ const graph_y = function graph_y(summary) {
     let left_y = TOP_Y;
     let elec_y = ELEC_BOX[1] - (DATA[i].elec.res + DATA[i].elec.ag +
       DATA[i].elec.indus + DATA[i].elec.trans) * SCALE;
+
+    let waste_y = ELEC_BOX[1] - (DATA[i].waste.res + DATA[i].waste.ag +
+      DATA[i].waste.indus + DATA[i].waste.trans) * SCALE;
+
     let offsets = {
-      y: { elec: 0, res: 0,
-        ag: 0, indus: 0, trans: 0 },
-      x: { solar: 0, nuclear: 0, hydro: 0, wind: 0, geo: 0,
-        gas: 0, coal: 0, bio: 0, petro: 0 }
+      y: {
+        elec: 0, waste: 0, res: 0,
+        ag: 0, indus: 0, trans: 0
+      },
+      x: {
+        solar: 0, nuclear: 0, hydro: 0, wind: 0, geo: 0,
+        gas: 0, coal: 0, bio: 0, petro: 0
+      }
     };
 
     // Get totals for year being graphed from totals in summary object
@@ -45,6 +83,8 @@ const graph_y = function graph_y(summary) {
     let half_stroke = null;
     let last_box = null;
 
+    let waste_obj = DATA[i]['waste'];
+
     // Loop through fuels
     // FIXME: Need to start at 0 and draw electricity first
     for (let j = 0; j < FUELS.length; ++j) {
@@ -52,31 +92,27 @@ const graph_y = function graph_y(summary) {
       if (fuel_name !== 'year') {
         let fuel_obj = DATA[i][fuel_name];
 
-        let waste_obj = DATA[i]['waste'];
-
         fuel_obj.total = 0;
         // Loop through boxes in 2 object
         for (let k = 0; k < BOX_NAMES.length; ++k) {
-          if (fuel_name === 'elec' && BOX_NAMES[k] === 'elec') {
+          if ((fuel_name === 'elec' && BOX_NAMES[k] === 'elec') || (fuel_name === 'waste' && BOX_NAMES[k] === 'elec') || (fuel_name === 'elec' && BOX_NAMES[k] === 'waste') || (fuel_name === 'waste' && BOX_NAMES[k] === 'waste') || BOX_NAMES[k] === 'waste') {
             // There is no electricity fuel flowing into the electricity box
             continue;
           }
           // Create object for path from fuel to box
-          let g = {fuel: fuel_name, box: BOX_NAMES[k], stroke: null,
+          let g = {
+            fuel: fuel_name, box: BOX_NAMES[k], stroke: null,
             a: { x: null, y: null },
             b: { x: null, y: null },
             c: { x: null, y: null },
             cc: { x: null, y: null },
-            d: { x: null, y: null } };
+            d: { x: null, y: null }
+          };
 
           // Calculate half stroke and increment y-coord counter
           half_stroke = fuel_obj[BOX_NAMES[k]] * SCALE / 2;
           // If first fuel (electricity)
           if (j === 0) {
-            half_stroke = (waste_obj[BOX_NAMES[k]] + fuel_obj[BOX_NAMES[k]]) * SCALE / 2;
-            if(half_stroke>0){
-              debugger;
-            }
             elec_y += half_stroke;
             g.a.y = elec_y;
             g.a.x = ELEC_BOX[0] + BOX_WIDTH;
@@ -128,6 +164,23 @@ const graph_y = function graph_y(summary) {
       }
     }
 
+    offsets.y['waste'] = offsets.y['elec'];
+
+    // ******************** Uncomment this ***********************//
+    // Update x for waste from offset for elec
+
+    // graph.filter(function (d) {
+    //         return d.fuel === 'waste';
+    //       })
+    //       .forEach(function (g, j) {            
+    //         g.a.x = ELEC_BOX[0] + BOX_WIDTH;
+    //         g.a.y = g.a.y - (offsets.y.waste - 20);
+    //         g.b.y = g.a.y;
+
+    //         g.b.x = LEFT_X;
+    //       });    
+    // ******************** Uncomment this ***********************//
+    
     graphs.push({ graph: graph, offsets: offsets, year: DATA[i].year,
       totals: totals, flows: flows });
   }
@@ -146,8 +199,9 @@ const graph_x_ups = function graph_x_ups(graphs) {
     let current_box = null;
     // Sort graphs bottom to top boxes, bottom to top fuels.
     graphs[i].graph
-      .filter(function(g) {
-        return g.a.y > g.d.y && g.box !== 'elec'; })
+      .filter(function (g) {
+        return g.a.y > g.d.y && g.box !== 'elec' && g.box !== 'waste';
+      })
       .sort(sort_graph_up)
       .forEach(function(g, j) {
         if (g.box !== current_box) {
@@ -173,8 +227,9 @@ const graph_x_downs = function graph_x_downs(graphs) {
     let current_box = null;
     // Sort graphs top to bottom boxes, top to bottom fuels.
     graphs[i].graph
-      .filter(function(g) {
-        return g.a.y < g.d.y && g.box !== 'elec'; })
+      .filter(function (g) {
+        return g.a.y < g.d.y && g.box !== 'elec' && g.box !== 'waste';
+      })
       .sort(sort_graph_down)
       .forEach(function(g, j) {
         if (g.box !== current_box) {
@@ -201,9 +256,10 @@ const space_ups_and_downs = function space_ups_and_downs(graphs) {
         return b.cc.x - a.cc.x; });
     graphs[i].graph
       // Don't reposition flows going to the electricity box
-      .filter(function(g) {
-        return g.box !== 'elec' ; })
-      .forEach(function(g, j) {
+      .filter(function (g) {
+        return g.box !== 'elec' && g.box !== 'waste';
+      })
+      .forEach(function (g, j) {
         if (i === 0) {
           // console.log(g.fuel, g.box);
         }
@@ -225,9 +281,10 @@ const space_ups_and_downs = function space_ups_and_downs(graphs) {
         return o.cc.x;
       }));
     graphs[i].graph
-      .filter(function(g) {
-        return g.box !== 'elec'; })
-      .forEach(function(g) {
+      .filter(function (g) {
+        return g.box !== 'elec' && g.box !== 'waste';
+      })
+      .forEach(function (g) {
         let diff = max_cc - (WIDTH - BOX_WIDTH - 50);
         g.c.x -= diff;
         g.b.x -= diff;

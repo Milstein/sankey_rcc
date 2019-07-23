@@ -40,15 +40,15 @@ const get_totals = function get_totals() {
   // Loop through years
   for (let i = 0; i < DATA.length; ++i) {
     let total = { year: DATA[i].year,
-      elec: 0, res: 0, ag: 0, indus: 0, trans: 0,
+      elec: 0, waste: 0, res: 0, ag: 0, indus: 0, trans: 0,
       solar: 0, nuclear: 0, hydro: 0, wind: 0, geo: 0,
       gas: 0, coal: 0, bio: 0, petro: 0, fuel_height: 0 };
     let label = { year: DATA[i].year,
-      elec: ELEC_BOX[1], res: 0, ag: 0, indus: 0, trans: 0,
+      elec: ELEC_BOX[1], waste: 0, res: 0, ag: 0, indus: 0, trans: 0,
       solar: 0, nuclear: 0, hydro: 0, wind: 0, geo: 0,
       gas: 0, coal: 0, bio: 0, petro: 0 };
     let flow = { year: DATA[i].year,
-      elec: 0, res: 0, ag: 0, indus: 0, trans: 0 };
+      elec: 0, waste: 0, res: 0, ag: 0, indus: 0, trans: 0 };
     // Loop through fuels
     // Skip electricity
     for (let j = 1; j < FUELS.length; ++j) {
@@ -56,6 +56,7 @@ const get_totals = function get_totals() {
       let fuel_obj = DATA[i][fuel_name];
       // Loop through boxes
       for (let k = 0; k < BOX_NAMES.length; ++k) {
+        if(fuel_obj[BOX_NAMES[k]] != NaN && fuel_obj[BOX_NAMES[k]] != undefined){
           // Increment the amount of flows to the box
           if (fuel_obj[BOX_NAMES[k]] > 0) { flow[BOX_NAMES[k]]++; }
           // Add to the box's total
@@ -65,7 +66,8 @@ const get_totals = function get_totals() {
           //  the right-hand boxes.
           if (j === 1 && BOX_NAMES[k] !== 'elec') {
             total[BOX_NAMES[k]] += DATA[i].elec[BOX_NAMES[k]];
-          }
+	  }
+        }
       }
 
       label[fuel_name] = TOP_Y + total.fuel_height - 5;

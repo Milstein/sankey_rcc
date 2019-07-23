@@ -15,6 +15,7 @@ const RIGHT_GAP = LEFT_GAP * 2.1;
 const BOX_WIDTH = 120;
 const FUELS = [
   {fuel: 'elec', color: '#e49942', name: 'Electricity' },
+  {fuel: 'waste', color: '#abd0bc', name: 'Electricity Waste' },
   {fuel: 'solar', color: '#fed530', name: 'Solar' },
   {fuel: 'nuclear', color: '#ca0813', name: 'Nuclear' },
   {fuel: 'hydro', color: '#0b24fb', name: 'Hydro' },
@@ -28,6 +29,7 @@ const FUELS = [
 const BOX_GREY = '#cccccc';
 const BOXES = [
   { box: 'elec', color: BOX_GREY, name: 'Electricity' },
+  { box: 'waste', color: BOX_GREY, name: 'Electricity Waste' },
   { box: 'res', color: BOX_GREY, name: 'Residential/Commercial' },
   // { box: 'comm', color: BOX_GREY, name: 'Commercial' },
   { box: 'ag', color: BOX_GREY, name: 'Agricultural' },
@@ -48,7 +50,11 @@ const FLOW_ORDER = {
       ['elec', 'indus'],
       ['elec', 'ag'],
       ['elec', 'res'],
-      ['elec', 'indus'],
+      ['elec', 'trans'],
+      ['waste', 'indus'],
+      ['waste', 'ag'],
+      ['waste', 'res'],
+      ['waste', 'trans'],
     ],
     left: [
       ['hydro', 'indus'],
