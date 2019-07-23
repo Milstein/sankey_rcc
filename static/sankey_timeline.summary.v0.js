@@ -66,8 +66,8 @@ const get_totals = function get_totals() {
           //  the right-hand boxes.
           if (j === 1 && BOX_NAMES[k] !== 'elec') {
             total[BOX_NAMES[k]] += DATA[i].elec[BOX_NAMES[k]];
-	  }
-        }
+          }
+	}
       }
 
       label[fuel_name] = TOP_Y + total.fuel_height - 5;

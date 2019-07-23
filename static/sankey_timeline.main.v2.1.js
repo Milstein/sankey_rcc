@@ -69,7 +69,9 @@
             return d.box === b;
           })[0];
         if (!(s === undefined || s === null)) {
-          graph_nest.strokes[y][f][b] = s.stroke;
+          if (b !== 'waste') {
+            graph_nest.strokes[y][f][b] = s.stroke;
+          }
         }
       }
     }

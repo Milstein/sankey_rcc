@@ -102,22 +102,31 @@ let draw_boxes_right = function draw_boxes_right(svg, totals, graph_nest, boxtop
     let y = boxtops[box.box];
     if (box.box === 'elec') {
       x = ELEC_BOX[0];
-      y = ELEC_BOX[1] - totals.elec * SCALE; }
+      y = ELEC_BOX[1] - totals.elec * SCALE;
+    }
+    else if (box.box === 'waste') {
+      x = ELEC_BOX[0];
+      y = ELEC_BOX[1] - totals.waste * SCALE;
+    }
+
     svg.append('rect')
       .attr('x', x)
       .attr('y', y)
       .attr('width', BOX_WIDTH)
       .attr('height', function() {
         if (totals[box.box] > 0) { return totals[box.box] * SCALE + BLEED; }
-        return 0; })
-      .attr('class', 'box sector animate '+box.box)
-      .classed('fuel', function() {
-        return box.box === 'elec';
+        return 0;
+      })
+      .attr('class', 'box sector animate ' + box.box)
+      .classed('fuel', function () {
+        return box.box === 'elec' || box.box === 'waste';
       })
       .attr('data-sector', box.box)
       .attr('data-fuel', function() {
         if (box.box === 'elec') {
           return 'elec';
+        } else if (box.box === 'waste') {
+          return 'waste';
         }
       })
       .attr('data-incr', 0);
@@ -133,7 +142,11 @@ let draw_boxes_right = function draw_boxes_right(svg, totals, graph_nest, boxtop
     let text = svg.append('text')
       .text(function() {
         if (box.box === 'res') { return 'Residential'; }
-        return box.name; })
+        else if (box.box === 'waste') {
+          return '';
+        }
+        return box.name;
+      })
       .attr('x', x)
       .attr('y', y - 5)
       .attr('dy', function() {
@@ -143,43 +156,50 @@ let draw_boxes_right = function draw_boxes_right(svg, totals, graph_nest, boxtop
       .attr('data-fuel', function() {
         if (box.box === 'elec') {
           return 'elec';
+        } else if (box.box === 'waste') {
+          return 'waste';
         }
       })
-      .attr('class', 'label sector animate '+box.box)
-      .classed('hidden', function() { return totals[box.box] === 0; })
-      .classed('fuel', function() { return box.box === 'elec'; })
-    ;
+      .attr('class', 'label sector animate ' + box.box)
+      .classed('hidden', function () { return totals[box.box] === 0; })
+      .classed('fuel', function () { return (box.box === 'elec' || box.box === 'waste'); });
     /**
      * Add /Commercial to residential box
      */
-    text.append('tspan')
-      .text(function() { if (box.box === 'res') { return '/Commercial'; } })
-      .attr('x', x)
-      .attr('dy', function() {
-        if (box.box === 'res') { return '1em'; }
-        return 0; })
-      .attr('data-incr', 0);
+    if (box.box !== 'waste') {
+      text.append('tspan')
+        .text(function () { if (box.box === 'res') { return '/Commercial'; } })
+        .attr('x', x)
+        .attr('dy', function () {
+          if (box.box === 'res') { return '1em'; }
+          return 0;
+        })
+        .attr('data-incr', 0);
+    }
+
     /**
      * Add numeric totals to output boxes
      */
-    text.append('tspan')
-      .attr('class', 'total sector animate '+box.box)
-      .attr('data-sector', box.box)
-      .attr('data-value', totals[box.box])
-      .text(sigfig2(totals[box.box]))
-      .attr('x', x)
-      .attr('dy', '1.2em')
-      .attr('data-incr', 0);
+    if (box.box !== 'waste') {
+      text.append('tspan')
+        .attr('class', 'total sector animate ' + box.box)
+        .attr('data-sector', box.box)
+        .attr('data-value', totals[box.box])
+        .text(sigfig2(totals[box.box]))
+        .attr('x', x)
+        .attr('dy', '1.2em')
+        .attr('data-incr', 0);
+    }
 
     /**
      * Add waste totals to output boxes
      */
     if (box.box !== 'elec') {
       text.append('tspan')
-        .attr('class', 'total waste sector animate ' + box.box)
+        .attr('class', 'total waste-level sector animate ' + box.box)
         .attr('data-sector', box.box)
-        .attr('data-value', graph_nest.waste[1800][box.box])
-        .text(sigfig2(graph_nest.waste[1800][box.box]))
+        .attr('data-value', graph_nest.waste[Object.keys(graph_nest.waste)[0]][box.box])
+        .text(sigfig2(graph_nest.waste[Object.keys(graph_nest.waste)[0]][box.box]))
         .attr('data-value', 0)
         .text(sigfig2(0))
         .attr('x', x + BOX_WIDTH)

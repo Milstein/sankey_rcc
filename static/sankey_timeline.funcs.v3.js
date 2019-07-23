@@ -13,35 +13,36 @@ const build_all_graphs = function build_all_graphs(summary) {
   graphs = graph_x(graphs);
   graphs = space_ups_and_downs(graphs);
 
-  // for (let i = 0; i < graphs.length; ++i) {
-  //   graphs[i].graph
-  //     .filter(function (g) {
-  //       return g.fuel === 'waste';
-  //     })
-  //     .forEach(function (g, j) {
-  //       g.a.x = ELEC_BOX[0] + BOX_WIDTH;
+  for (let i = 0; i < graphs.length; ++i) {
+    graphs[i].graph
+      .filter(function (g) {
+        return g.fuel === 'waste';
+      })
+      .forEach(function (g, j) {
+        //debugger;
+        g.a.x = ELEC_BOX[0] + BOX_WIDTH;
         
-  //       g.b.x = g.b.x + LEFT_GAP;
+        g.b.x = g.b.x + LEFT_GAP;
         
-  //       g.a.y = g.a.y - (graphs[i].offsets.y.waste - 20);
-  //       g.b.y = g.a.y;
+        g.a.y = g.a.y - (graphs[i].offsets.y.waste - 20);
+        g.b.y = g.a.y;
 
-  //       // g.d.x = ELEC_BOX[0];
-  //       // g.d.y = (ELEC_BOX[1] -
-  //       //   graphs[i].totals.waste * SCALE + graphs[i].offsets.y.waste);
+        // g.d.x = ELEC_BOX[0];
+        // g.d.y = (ELEC_BOX[1] -
+        //   graphs[i].totals.waste * SCALE + graphs[i].offsets.y.waste);
 
-  //       // g.c.x = (ELEC_BOX[0] - 20 -
-  //       //   (graphs[i].totals.waste * SCALE - graphs[i].offsets.y.waste) / SR3 -
-  //       //   (FUELS.length - j) * PATH_GAP);
-  //       // g.b.x = (g.c.x - Math.abs(g.a.y - g.d.y) /
-  //       //   SR3);
+        // g.c.x = (ELEC_BOX[0] - 20 -
+        //   (graphs[i].totals.waste * SCALE - graphs[i].offsets.y.waste) / SR3 -
+        //   (FUELS.length - j) * PATH_GAP);
+        // g.b.x = (g.c.x - Math.abs(g.a.y - g.d.y) /
+        //   SR3);
 
-  //       if (g.box === 'trans') {
-  //         g.b.x = g.b.x + (TOP_Y + LEFT_GAP) - 20;
-  //         //g.c.x = g.c.x + BOX_WIDTH;
-  //       }
-  //     });
-  // }
+        if (g.box === 'trans') {
+          g.b.x = g.b.x + (TOP_Y + LEFT_GAP) - 20;
+          //g.c.x = g.c.x + BOX_WIDTH;
+        }
+      });
+  }
   return graphs;
 };
 
@@ -74,11 +75,13 @@ const graph_y = function graph_y(summary) {
     };
 
     // Get totals for year being graphed from totals in summary object
-    let totals = summary.totals.filter(function(d) {
-      return d.year === DATA[i].year; })[0];
+    let totals = summary.totals.filter(function (d) {
+      return d.year === DATA[i].year;
+    })[0];
 
-    let flows = summary.flows.filter(function(d) {
-      return d.year === DATA[i].year; })[0];
+    let flows = summary.flows.filter(function (d) {
+      return d.year === DATA[i].year;
+    })[0];
 
     let half_stroke = null;
     let last_box = null;
@@ -252,8 +255,9 @@ const space_ups_and_downs = function space_ups_and_downs(graphs) {
   let prev = null;
   let diff = null;
   for (let i = 0; i < graphs.length; ++i) {
-    graphs[i].graph.sort(function(a, b) {
-        return b.cc.x - a.cc.x; });
+    graphs[i].graph.sort(function (a, b) {
+      return b.cc.x - a.cc.x;
+    });
     graphs[i].graph
       // Don't reposition flows going to the electricity box
       .filter(function (g) {
@@ -261,7 +265,7 @@ const space_ups_and_downs = function space_ups_and_downs(graphs) {
       })
       .forEach(function (g, j) {
         if (i === 0) {
-          // console.log(g.fuel, g.box);
+          //console.log(g.fuel, g.box);
         }
         if (j === 0) { prev = g; return; }
         let path_gap = PATH_GAP * HSR3;

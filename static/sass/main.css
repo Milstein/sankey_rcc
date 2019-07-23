@@ -85,7 +85,7 @@ text {
 .total.sector {
   font-size: 0.7em;
   font-weight: bold; }
-.total.waste {
+.total.waste-level {
   fill: #cccccc; }
 
 .hidden {
