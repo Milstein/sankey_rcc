@@ -4,19 +4,35 @@
     <meta charset="UTF-8">
     <title>Sankey</title>
     <link rel=stylesheet href=./sass/main.css>
+	<!--<link rel="stylesheet" href="css/theme.css" type="text/css" media="all" />-->
+	
     <script src="fonts/Fieldwork.js"></script>
+	
+	<script type="text/javascript" src="jquery/jquery-3.3.1.js"></script>
+	<!-- Cookies.js -->
+    <script type="text/javascript" src="cookies.min.js"></script>
 </head>
 <body>
   <header>
+  <div id="vis">
     <div class="title container">
         <img src=images/rdcep.png alt>
     </div>
+	<div class="sankey"></div>
+                                <div class="range-slider" style="">
+                                    <input id="rangeSlider" class="range-slider__range" type="range" value="1800"
+                                        min="1800" max="2017">
+                                    <span class="range-slider__value">1800</span>
+                                    <div id="testTick" style="display:none;"></div>
+                                </div>
+                                <button id="play-button" style=">Play</button>
+								</div>
   </header>
   <main>
     <div class="sankey container"></div>
   </main>
   <script src="d3.v5.min.js"></script>
-  <script src="sankey_timeline.data.v4.js?1"></script>
+  <script src="sankey_timeline.data.v4.js"></script>
   <script src="sankey_timeline.constants.v0.js"></script>
   <script src="sankey_timeline.funcs.v3.js"></script>
   <script src="sankey_timeline.animation.v1.js"></script>

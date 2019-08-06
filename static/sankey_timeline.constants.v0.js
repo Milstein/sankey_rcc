@@ -4,7 +4,7 @@ const HSR3 = Math.sqrt(3) / 2;
 const SR3 = Math.sqrt(3);
 const BLEED = .5;
 const WIDTH = 1200;
-const HEIGHT = WIDTH * 2 / 4;
+const HEIGHT = 620;// WIDTH * 2 / 4;
 const ELEC_BOX = [500, 120];
 const ELEC_GAP = 19;
 const LEFT_X = 10;
@@ -15,7 +15,6 @@ const RIGHT_GAP = LEFT_GAP * 2.1;
 const BOX_WIDTH = 120;
 const FUELS = [
   {fuel: 'elec', color: '#e49942', name: 'Electricity' },
-  {fuel: 'waste', color: '#abd0bc', name: 'Electricity Waste' },
   {fuel: 'solar', color: '#fed530', name: 'Solar' },
   {fuel: 'nuclear', color: '#ca0813', name: 'Nuclear' },
   {fuel: 'hydro', color: '#0b24fb', name: 'Hydro' },
@@ -29,7 +28,6 @@ const FUELS = [
 const BOX_GREY = '#cccccc';
 const BOXES = [
   { box: 'elec', color: BOX_GREY, name: 'Electricity' },
-  { box: 'waste', color: BOX_GREY, name: 'Electricity Waste' },
   { box: 'res', color: BOX_GREY, name: 'Residential/Commercial' },
   // { box: 'comm', color: BOX_GREY, name: 'Commercial' },
   { box: 'ag', color: BOX_GREY, name: 'Agricultural' },
@@ -50,11 +48,7 @@ const FLOW_ORDER = {
       ['elec', 'indus'],
       ['elec', 'ag'],
       ['elec', 'res'],
-      ['elec', 'trans'],
-      ['waste', 'indus'],
-      ['waste', 'ag'],
-      ['waste', 'res'],
-      ['waste', 'trans'],
+      ['elec', 'indus'],
     ],
     left: [
       ['hydro', 'indus'],

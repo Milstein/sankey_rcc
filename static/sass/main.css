@@ -1,13 +1,15 @@
-text {
-  font-family: Fieldwork, Futura, sans-serif; }
+text, tspan {
+  font-family: Fieldwork, Futura, sans-serif; font-size: 16px; }
+
+.tick text{
+  font-family: Fieldwork, Futura, sans-serif; font-size: 12px; cursor: pointer; }
 
 .flow {
-  fill: none;
-  stroke-linejoin: round; }
+  fill: none; }
   .flow.elec {
     stroke: #e49942; }
   .flow.waste {
-    stroke: #abd0bc; }
+    stroke: #e49942; opacity: 0.4; }
   .flow.solar {
     stroke: #fed530; }
   .flow.nuclear {
@@ -60,24 +62,29 @@ text {
   border-bottom: 1px solid #b2b2b2;
   position: relative; }
   .title.container img {
-    height: 40px;
+    max-height: 40px;
     position: absolute;
     top: 5px; }
   .title.container svg {
-    position: absolute; }
+    position: absolute;
+    font-size: 15px;}
   .title.container .title {
     font-size: 1em;
     fill: black; }
     .title.container .title .unit {
-      font-size: 0.7em;
+      font-size: 0.9em;
       font-weight: bold; }
     .title.container .title .year {
-      font-size: 2.1em;
+      font-size: 2.8em;
       font-weight: bold;
       clear: left;
       letter-spacing: 0.05em;
       font-variant-numeric: tabular-nums; }
   .title.container .citation, .title.container .affiliation {
+    font-family: Fieldwork-HumThin, Futura, sans-serif;
+    font-size: 1em;
+    fill: #b2b2b2; }
+  .title.container .affiliation-bottom {
     font-family: Fieldwork-HumThin, Futura, sans-serif;
     font-size: 0.9em;
     fill: #b2b2b2; }

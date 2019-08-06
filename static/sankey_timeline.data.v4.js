@@ -1,6 +1,7 @@
 let DATA = [
   {
     "year": 1800,
+    "milstestone": "Virtually all residential fuel use at this point was wood burned in fireplaces to heat homes. Colonial American energy use was stunningly wasteful, nearly three times the global average of c. 1000 Watts/person.",
     "elec": {
       "elec": 0.0,
       "res": 0.0,
@@ -2401,6 +2402,7 @@ let DATA = [
   },
   {
     "year": 1830,
+    "milstestone": "Before the 1830s, the transportation sector was almost entirely sail-powered at sea and horse-drawn on land. Afterwards, steamships and railroads burned both wood and coal at increasingly rapid rates.",
     "elec": {
       "elec": 0.0,
       "res": 0.0,
@@ -5201,6 +5203,7 @@ let DATA = [
   },
   {
     "year": 1865,
+    "milstestone": "During and after the Civil War, government-subsidized railroads carried coal across the country, dramatically accelerating its use in households.",
     "elec": {
       "elec": 0.0,
       "res": 0.0,
@@ -5601,6 +5604,7 @@ let DATA = [
   },
   {
     "year": 1870,
+    "milstestone": "Wind energy in the American West was harnessed to pump water and even generate electricity until the expansion of the electrical grid in the 1930s and 1940s.",
     "elec": {
       "elec": 0.0,
       "res": 0.0,
@@ -6561,6 +6565,7 @@ let DATA = [
   },
   {
     "year": 1882,
+    "milstestone": "The first electrical use in industry began in the 1870s, but was insignificant until the construction of the first central power stations in the 1880s.",
     "elec": {
       "elec": 0.0,
       "res": 0.0,
@@ -10321,6 +10326,7 @@ let DATA = [
   },
   {
     "year": 1929,
+    "milstestone": "Energy use dramatically fell during the Great Depression of the 1930s, only rebounding after the New Deal and World War Two.",
     "elec": {
       "elec": 0.0,
       "res": 22.759726446585475,
@@ -10641,6 +10647,7 @@ let DATA = [
   },
   {
     "year": 1933,
+    "milstestone": "As part of the New Deal, the electrical grid was rapidly expanded throughout the rural US.",
     "elec": {
       "elec": 0.0,
       "res": 25.244852903857836,
@@ -11601,6 +11608,7 @@ let DATA = [
   },
   {
     "year": 1945,
+    "milstestone": "Window air conditioning units were introduced in 1945, and they contributed to rapidly growing household electricity use in the 1950s and beyond.",
     "elec": {
       "elec": 0.0,
       "res": 54.99852648256466,
@@ -12641,6 +12649,7 @@ let DATA = [
   },
   {
     "year": 1958,
+    "milstestone": "The first commercial nuclear power plant was opened in 1958 as part of an Eisenhower administration program.",
     "elec": {
       "elec": 0.0,
       "res": 220.7772468571608,
@@ -13841,6 +13850,7 @@ let DATA = [
   },
   {
     "year": 1973,
+    "milstestone": "The Oil Crisis of 1973 led to the relative decline of American industry and subsequent investment in electrical power and alternative energy.",
     "elec": {
       "elec": 0.0,
       "res": 567.085681652202,
@@ -16241,6 +16251,7 @@ let DATA = [
   },
   {
     "year": 2003,
+    "milstestone": "Starting in 2003, the introduction of fracking cheapened natural gas, expanding its use in the electrical sector.",
     "elec": {
       "elec": 0.0,
       "res": 993.7894056614601,
@@ -16800,7 +16811,7 @@ let DATA = [
     }
   },
   {
-    "year": 2010,
+    "year": 2010,    
     "elec": {
       "elec": 0.0,
       "res": 1026.3609404130077,
